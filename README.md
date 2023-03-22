@@ -1,7 +1,10 @@
-# Vue 3 + Vite
+# Rails Blog Client
+This is a project for a blog built with microservice structure, using Vue3 for client and Ruby on Rails 7 for the back-end
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+For this client project I used this package:
+- Vue router 
+- Pinia | Vue state management
+- Axios | for API (but I used more fetch)
+- Tailwind CSS
+- flowbite | for rapid UI construction
 
-## Recommended IDE Setup
-
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
