@@ -8,7 +8,7 @@
         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
         placeholder="name@flowbite.com" 
         required
-        v-model="Email"
+        v-model="email"
         >
     </div>
     <div class="mb-6">
@@ -30,16 +30,16 @@
 </template>
 
 <script setup>
-import { useUsersStore } from '../../stores';
+import { useSessionStore } from '../../stores';
 import { ref } from 'vue';
 
-let store = useUsersStore();
+let store = useSessionStore();
 
-let Email = ref('');
+let email = ref('');
 let Password = ref('');
 
 const resetData = () => {
-    Email.value = '';
+    email.value = '';
     Password.value = '';
 }
 
@@ -47,11 +47,11 @@ async function onSignUp() {
 
     const data = {
         user: {
-            email: Email.value,
+            email: email.value,
             password: Password.value
         }
     }
-    await store.register(data)
+    await store.registerUser(data)
     
     resetData();
 };

@@ -28,10 +28,10 @@
 </template>
 
 <script setup>
-import { useAuthStore} from '@/stores';
+import { useSessionStore } from '@/stores';
 import { ref } from 'vue';
 
-let store = useAuthStore();
+let store = useSessionStore();
 
 let email = ref('');
 let Password = ref('');
@@ -49,7 +49,7 @@ async function onLogin() {
             password: Password.value
         }
     }
-    await store.login(data)
+    await store.loginUser(data)
     
     resetData();
 };

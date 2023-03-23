@@ -22,34 +22,18 @@
                 Posts
             </RouterLink>
         </li>
-        <li>
+        <li v-if="!isLoggedIn">
           <RouterLink to="/login">
             Login
           </RouterLink>
         </li>
-        <li>
-          <RouterLink to="/register" :class="linkClasses()">
+        <li v-if="!isLoggedIn">
+          <RouterLink to="/register" :class="linkClasses()" v-if="!isLoggedIn">
             Registration
           </RouterLink>
         </li>
-        <li>
-
-          <button id="dropdownHoverButton" 
-                  data-dropdown-toggle="dropdownHover" 
-                  data-dropdown-trigger="hover" 
-                  class="inline-flex items-center py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
-                  type="button"
-          >
-                    User <svg class="w-4 h-4 ml-2" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></button>
-          <!-- Dropdown menu -->
-          <div id="dropdownHover" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
-              <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownHoverButton">
-                <li>
-                    <LogoutButton/>
-                </li>
-              </ul>
-          </div>
-
+        <li v-else>
+          <LogoutButton :class="linkClasses()"></LogoutButton> <span>{{ user.email }}</span> 
         </li>
       </ul>
     </div>
@@ -61,15 +45,21 @@
 <script setup>
 import { computed } from 'vue';
 import { RouterLink } from 'vue-router';
-import { useAuthStore } from '@/stores';
 import LogoutButton from '@/components/shared/LogoutButton.vue'
 
-let authStore = useAuthStore()
+import { useSessionStore } from '@/stores';
 
-let isLogged = computed(() => authStore.isLogged);
+let store = useSessionStore();
+
+let isLoggedIn = computed(() => store.isLoggedIn);
+let user = computed(() => store.user);
+
+
+
+
 
 const  linkClasses = () => {
-  return "block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+  return "py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
 }
 
 </script>

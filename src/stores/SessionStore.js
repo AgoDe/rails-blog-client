@@ -1,15 +1,11 @@
 import { defineStore } from "pinia";
 import axios from "axios";
 
-export let useSessionStore = defineStore("UserSession", {
+export let useSessionStore = defineStore("Session", {
     state: () => ({
         auth_token: null,
         base_URL: 'http://localhost:3000',
-        user: {
-            id: null,
-            username: null,
-            email: null,
-        }
+        user: {},
     }), // end of state
 
     getters: {
@@ -37,24 +33,21 @@ export let useSessionStore = defineStore("UserSession", {
         },
         setUserInfoFromToken(payload) {
             this.user = payload.data.user
-            this.auth_token = localStorage.getItem("auth_item")
+            this.auth_token = localStorage.getItem("auth_token")
         },
         resetUserInfo() {
-            this.user = {
-                id: null,
-                username: null,
-                email: null,
-            }
+            this.user = {}
             this.auth_token = null
             localStorage.removeItem("auth_token")
             axios.defaults.headers.common["Authorization"] = null
         },
-        registerUser({ commit }, payload) {
+        registerUser(payload) {
             return new Promise((resolve, reject) => {
                 axios
                 .post(`${this.base_URL}/users`, payload)
                 .then((res) => {
-                    commit("setUserInfo" , res);
+                    
+                   this.setUserInfo(res);
                     resolve(res)
                 })
                 .catch((e) => {
@@ -62,12 +55,12 @@ export let useSessionStore = defineStore("UserSession", {
                 })
             })
         },
-        loginUser({ commit }, payload) {
+        loginUser(payload) {
             new Promise((resolve, reject) => {
                 axios
                 .post(`${this.base_URL}/users/sign_in`, payload)
                 .then((res) => {
-                    commit("setUserInfo", res)
+                    this.setUserInfo(res)
                     resolve(res)
                 })
                 .catch((e) => {
@@ -75,29 +68,30 @@ export let useSessionStore = defineStore("UserSession", {
                 })
             })
         },
-        logoutUser({ commit }) {
+        logoutUser() {
             const config = {
                 headers: {
-                    Authorization: state.auth_token,
+                    "Content-Type": "application/json",
+                    Authorization: this.auth_token,
                 }
             };
 
             new Promise((resolve, reject) => {
                 axios
-                .delete(`${this.base_URL}/users`, config)
-                .then(() => {
-                    commit("resetUserInfo");
-                    resolve()
+                .delete(`${this.base_URL}/users/sign_out`, config)
+                .then((res) => {
+                    this.resetUserInfo();
+                    resolve(res)
                 })
                 .catch((e) => {
                     reject(e)
                 })
             })
         },
-        loginUserWithToken({ commit }, payload) {
+        loginUserWithToken(auth_token) {
             const config = {
                 headers: {
-                    Authorization: payload.auth_token,
+                    Authorization: auth_token,
                 }
             };
 
@@ -105,7 +99,7 @@ export let useSessionStore = defineStore("UserSession", {
                 axios
                 .get(`${this.base_URL}/member-data`, config)
                 .then((res) => {
-                    commit("setUserInfoFromToken", res)
+                    this.setUserInfoFromToken(res)
                     resolve(res)
 
                 })
@@ -114,18 +108,5 @@ export let useSessionStore = defineStore("UserSession", {
                 })
             })
         },
-        async register(user) {
-            const requestOptions =  {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(user)
-            }
-
-            return fetch(this.base_URL + '/users', requestOptions)
-            .then((res) => {
-                console.log(res)
-            
-            })
-        }
     } // end of actions
 })

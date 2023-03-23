@@ -17,12 +17,10 @@ app.use(pinia)
 app.mount('#app')
 
 let store = useSessionStore()
-let localAuthToken = localStorage.auth_token;
-let cookieExist = localAuthToken !== 'undefinded' && localAuthToken !== null;
-if (cookieExist) {
-    const auth_token = localStorage.getItem('auth_token');
-    const authTokenExist = auth_token !== 'undefined' && auth_token !== null
-    if (authTokenExist) {
-        store.dispatch("logginUserWithToken", {auth_token})
-    }
+
+const auth_token = localStorage.getItem('auth_token');
+const authTokenExist = auth_token !== 'undefined' && auth_token !== null
+if (authTokenExist) {
+    store.loginUserWithToken(auth_token)
 }
+
