@@ -30,11 +30,10 @@
 </template>
 
 <script setup>
-import { useSessionStore } from '@/stores';
+import { useUsersStore } from '../../stores';
+import { ref } from 'vue';
 
-import { computed, ref } from 'vue';
-
-let store = useSessionStore();
+let store = useUsersStore();
 
 let Email = ref('');
 let Password = ref('');
@@ -42,23 +41,20 @@ let Password = ref('');
 const resetData = () => {
     Email.value = '';
     Password.value = '';
-}   
+}
 
-const onSignUp = () => {
-    let data = {
+async function onSignUp() {
+
+    const data = {
         user: {
             email: Email.value,
             password: Password.value
         }
     }
-
-    store.register(data);
+    await store.register(data)
+    
     resetData();
 };
-
-
-
-    
 
 </script>
 

@@ -25,7 +25,6 @@
         </button>
     </form>
 
-    <button @click="successAlert">alert</button>
 </template>
 
 <script setup>

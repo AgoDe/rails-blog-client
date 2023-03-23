@@ -1,9 +1,9 @@
 <script setup>
-import Navbar from './components/Shared/Navbar.vue';
+import TheNavbar from './components/shared/TheNavbar.vue';
 </script>
 
 <template>
-  <Navbar/>
+  <TheNavbar/>
   <div class="container mx-auto mt-8">
     <RouterView>
     </RouterView>
