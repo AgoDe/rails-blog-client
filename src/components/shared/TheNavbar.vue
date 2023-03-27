@@ -33,7 +33,7 @@
           </RouterLink>
         </li>
         <li v-else>
-          <LogoutButton :class="linkClasses()"></LogoutButton> <span>{{ user.email }}</span> 
+          <LogoutButton :class="linkClasses()"></LogoutButton> <span>{{ user?.email }}</span> 
         </li>
       </ul>
     </div>

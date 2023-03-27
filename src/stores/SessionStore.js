@@ -61,10 +61,11 @@ export let useSessionStore = defineStore("Session", {
                 .post(`${this.base_URL}/users/sign_in`, payload)
                 .then((res) => {
                     this.setUserInfo(res)
+                
                     resolve(res)
                 })
                 .catch((e) => {
-                    reject(e)
+                    return reject(e)
                 })
             })
         },
